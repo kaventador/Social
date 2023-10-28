@@ -52,17 +52,17 @@ class PostUpdateView(LoginRequiredMixin,View):
         form = self.form_class(request.POST,instance=post)
         if form.is_valid():
             new_post = form.save(commit=False)
-            new_post.slug =slugify (form.cleaned_data['body'][:30])
+            new_post.slug =slugify(form.cleaned_data['body'][:30])
             new_post.save()
             messages.success(request,'You apdated this post','success')
             return redirect('home:post_detail',post.id,post.slug)
 
 
-class PostCreateView(LoginRequiredMixin,View):
+class PostCreateView(LoginRequiredMixin , View):
     form_class = PostCreateUpdateForm
     def get(self,request,*args, **kwargs):
         form = self.form_class
-        return render(request,'home/create.html/',{'form',form})
+        return render(request,'home/create.html/',{'form':form})
 
     def post(self,request,*args, **kwargs):
         form = self.form_class(request.POST)
