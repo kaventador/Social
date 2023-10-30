@@ -10,7 +10,8 @@ from django.utils.text import slugify
 # Create your views here.
 class HomeView(View):
     def get(self,request):
-        posts = Post.objects.all()
+        #posts = Post.objects.all()
+        posts = Post.objects.order_by('-created')
         return render(request,'home/index.html', {'posts': posts})
     def post(self,request):
         return render(request,'home/index.html')
@@ -18,8 +19,8 @@ class HomeView(View):
 
 class PostDetailVeiw(View):
     def get(self ,request, post_id, post_slug):
-        #post = get_object_or_404(Post,pk = post_id,slug = post_slug)
-        post = Post.objects.get(pk = post_id , slug=post_slug)
+        post = get_object_or_404(Post,pk = post_id,slug = post_slug)
+        #post = Post.objects.get(pk = post_id , slug=post_slug)
         return render(request,'home/detail.html',{'post':post})
 
 class PostDeleteView(LoginRequiredMixin,View):
